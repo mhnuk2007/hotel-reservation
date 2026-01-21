@@ -185,6 +185,25 @@ public class HotelReservation {
 
 
     private static void deleteReservations(Connection connection, Scanner scanner) {
+        try {
+            System.out.print("Enter reservation ID: ");
+            int reservationID = scanner.nextInt();
+            if (!reservationExists(connection, reservationID)) {
+                System.out.println("Reservation not found.");
+                return;
+            }
+            String sql = "DELETE FROM reservations WHERE reservation_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, reservationID);
+            int rows = preparedStatement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Reservation deleted successfully!");
+            } else {
+                System.out.println("Failed to delete reservation.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static boolean reservationExists(Connection connection, int reservationID) {
