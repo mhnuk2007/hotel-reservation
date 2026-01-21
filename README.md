@@ -1,6 +1,6 @@
 # Hotel Reservation System
 
-This is a **console-based Hotel Reservation System** implemented in Java using **JDBC** for MySQL database connectivity.
+This is a **console-based Hotel Reservation System** implemented in Java using **JDBC** for MySQL database connectivity. It has been refactored to follow **clean architecture principles** using Model and DAO layers.
 
 ## Features
 
@@ -9,6 +9,20 @@ This is a **console-based Hotel Reservation System** implemented in Java using *
 * Get room number for a reservation
 * Update a reservation
 * Delete a reservation
+* **Clean Architecture**: Separation of concerns using Model and DAO layers.
+
+## Refactoring Progress Update
+
+As part of the Core Java & JDBC revision project, the application has been refactored using Model and DAO layers.
+
+**What’s new in this phase:**
+* **Reservation Model**: Introduced with auto-generated fields (ID, timestamp).
+* **DAO Pattern**: Implemented `ReservationDAO` and `ReservationDAOImpl`.
+* **Database Logic**: Moved entirely out of the main class.
+* **CRUD Operations**: Fully functional via DAO.
+* **Maintainability**: Cleaner, more maintainable, and testable codebase.
+
+> This refactor prepares the project for a Service layer and an eventual Spring Boot migration, following industry-standard backend design.
 
 ## Prerequisites
 
@@ -46,13 +60,7 @@ git clone https://github.com/mhnuk2007/hotel-reservation.git
 ```
 
 2. Open the project in your IDE or terminal.
-3. Update database credentials in `HotelReservation.java` if necessary:
-
-```java
-private static final String URL = "jdbc:mysql://localhost:3306/hotel_db";
-private static final String USERNAME = "root";
-private static final String PASSWORD = "root";
-```
+3. Update database credentials in the configuration if necessary.
 
 4. Compile and run the program:
 
@@ -72,7 +80,7 @@ java -cp .;path/to/mysql-connector-java.jar HotelReservation
 
 ## Future Improvements
 
-* Implement **DAO pattern** for cleaner separation.
+* Introduce a **Service Layer**.
 * Add **transaction management**.
 * Implement a **GUI version** using JavaFX.
 * Convert to **Spring Boot + JPA** application for web interface.
