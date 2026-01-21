@@ -1,109 +1,158 @@
-# Hotel Reservation System
+# 🏨 Hotel Reservation System
 
-This is a **console-based Hotel Reservation System** implemented in **Core Java** using **JDBC** for database connectivity. The project is designed with a **layered architecture** to ensure a clean separation of concerns, making it maintainable, scalable, and easy to understand.
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
+![JDBC](https://img.shields.io/badge/JDBC-4479A1?style=for-the-badge&logo=java&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 
-## Project Architecture
-
-The application is structured into three main layers:
-
-1.  **Presentation Layer (UI)**: The `HotelReservation.java` class, which is responsible for handling user input and displaying output. It is the entry point of the application.
-2.  **Service Layer**: Handles the business logic. It acts as an intermediary between the presentation layer and the data access layer.
-3.  **Data Access Layer (DAO)**: Responsible for all database operations (CRUD). It abstracts the underlying data source from the rest of the application.
-
-This layered approach is a common practice in enterprise application development and is a foundational concept for building robust software.
-
-### Visualized Structure
-
-```
-+---------------------------+
-|   Presentation Layer      |
-|  (HotelReservation.java)  |
-+-------------+-------------+
-              |
-              v
-+-------------+-------------+
-|       Service Layer       |
-| (ReservationServiceImpl)  |
-+-------------+-------------+
-              |
-              v
-+-------------+-------------+
-|   Data Access Layer (DAO) |
-| (ReservationDAOImpl)      |
-+-------------+-------------+
-              |
-              v
-+-------------+-------------+
-|          Database         |
-|         (MySQL)           |
-+---------------------------+
-```
-
-## Features
-
-*   Reserve a room
-*   View all reservations
-*   Get room number for a reservation
-*   Update an existing reservation
-*   Delete a reservation
-*   **Clean, Layered Architecture**: Ensures separation of concerns and high maintainability.
-
-## Prerequisites
-
-*   Java 8 or higher
-*   MySQL Server
-*   MySQL JDBC Driver
-
-## Database Setup
-
-1.  **Create the database**:
-    ```sql
-    CREATE DATABASE hotel_db;
-    ```
-2.  **Create the table**:
-    ```sql
-    USE hotel_db;
-
-    CREATE TABLE reservations (
-        reservation_id INT AUTO_INCREMENT PRIMARY KEY,
-        guest_name VARCHAR(100) NOT NULL,
-        room_number INT NOT NULL,
-        contact_number VARCHAR(20) NOT NULL,
-        reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    ```
-
-## Getting Started
-
-1.  **Clone the repository**.
-2.  **Open the project** in your favorite IDE (e.g., IntelliJ IDEA, Eclipse).
-3.  **Configure the database connection**:
-    *   Navigate to the `src` directory.
-    *   Create a file named `db.properties`.
-    *   Add the following properties to the file, replacing the placeholder values with your MySQL credentials:
-        ```properties
-        db.driver=com.mysql.cj.jdbc.Driver
-        db.url=jdbc:mysql://localhost:3306/hotel_db
-        db.username=your_username
-        db.password=your_password
-        ```
-4.  **Add the JDBC Driver**: Make sure the MySQL JDBC driver JAR file is included in your project's classpath.
-5.  **Compile and Run**: Execute the `main` method in `HotelReservation.java`.
-
-## Future Improvements
-
-*   **Transaction Management**: Implement transaction handling in the service layer to ensure data integrity.
-*   **GUI**: Build a graphical user interface using a framework like JavaFX or Swing.
-*   **Spring Boot Migration**: As a next step, this project can be migrated to a full-fledged web application using Spring Boot and Spring Data JPA.
-
-## License
-
-This project is open source and free to use.
+A robust, console-based **Hotel Reservation System** built with **Core Java** and **JDBC**. This project demonstrates a professional implementation of the **Layered Architecture** pattern, ensuring clean separation of concerns, maintainability, and scalability.
 
 ---
 
-**Author:** Mohan Lal
-* LinkedIn: https://www.linkedin.com/in/mhnuk2007/
-* GitHub: https://github.com/mhnuk2007
-* Portfolio: https://mhnuk2007.github.io/
-* Netlify: https://mhnuk2007.netlify.app/
+## 📖 Table of Contents
+- [Overview](#-overview)
+- [Architecture](#-architecture)
+- [Project Structure](#-project-structure)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Database Setup](#-database-setup)
+- [Future Roadmap](#-future-roadmap)
+- [Author](#-author)
+
+---
+
+## 🚀 Overview
+
+This application serves as a practical revision of Core Java and JDBC concepts, refactored to mirror enterprise-level development standards. It transitions from a monolithic design to a modular, layered approach, preparing the groundwork for advanced frameworks like Spring Boot.
+
+**Key Highlights:**
+*   **Clean Code:** Adheres to SOLID principles.
+*   **Scalable Design:** Decoupled layers allow for easy updates and testing.
+*   **Secure Configuration:** Centralized database credentials.
+
+---
+
+## 🏗 Architecture
+
+The project is structured into three distinct layers:
+
+1.  **Presentation Layer (UI):** Handles user interaction via the console (`HotelReservation.java`).
+2.  **Service Layer (Business Logic):** Processes data and applies business rules (`ReservationService`).
+3.  **Data Access Layer (DAO):** Manages direct database interactions (`ReservationDAO`).
+
+### 🔄 Refactoring Journey: Monolith → Layered
+*   ✅ **DAO Pattern:** Isolated SQL operations.
+*   ✅ **Service Layer:** Centralized business logic.
+*   ✅ **Model:** POJOs representing database entities.
+*   ✅ **Utilities:** Reusable DB connection logic.
+
+---
+
+## 📂 Project Structure
+
+```plaintext
+src/
+├── dao/                  # Data Access Objects
+│   ├── ReservationDAO.java
+│   └── ReservationDAOImpl.java
+├── model/                # Data Models (POJOs)
+│   └── Reservation.java
+├── service/              # Business Logic Layer
+│   ├── ReservationService.java
+│   └── ReservationServiceImpl.java
+├── util/                 # Utility Classes
+│   └── DBConnection.java
+├── db.properties         # Database Configuration
+└── HotelReservation.java # Main Application Entry Point
+```
+
+---
+
+## ✨ Features
+
+*   **📝 Reserve a Room:** Create new bookings with guest details.
+*   **👀 View Reservations:** List all active reservations.
+*   **🔍 Find Room Number:** Retrieve room details by reservation ID and guest name.
+*   **✏️ Update Reservation:** Modify existing booking details.
+*   **❌ Delete Reservation:** Remove a booking from the system.
+
+---
+
+## 🛠 Tech Stack
+
+*   **Language:** Java 8+
+*   **Database:** MySQL
+*   **Connectivity:** JDBC (Java Database Connectivity)
+*   **Driver:** MySQL Connector/J
+
+---
+
+## 🏁 Getting Started
+
+### Prerequisites
+*   Java Development Kit (JDK) 8 or higher
+*   MySQL Server installed and running
+*   IDE (IntelliJ IDEA, Eclipse) or Terminal
+
+### Installation
+
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/mhnuk2007/hotel-reservation.git
+    cd hotel-reservation
+    ```
+
+2.  **Configure Database**
+    Create a `db.properties` file in the `src` directory:
+    ```properties
+    db.driver=com.mysql.cj.jdbc.Driver
+    db.url=jdbc:mysql://localhost:3306/hotel_db
+    db.username=root
+    db.password=your_password
+    ```
+
+3.  **Run the Application**
+    Compile and execute `HotelReservation.java`.
+
+---
+
+## 🗄 Database Setup
+
+Execute the following SQL commands to set up your environment:
+
+```sql
+-- Create Database
+CREATE DATABASE hotel_db;
+
+-- Use Database
+USE hotel_db;
+
+-- Create Table
+CREATE TABLE reservations (
+    reservation_id INT AUTO_INCREMENT PRIMARY KEY,
+    guest_name VARCHAR(100) NOT NULL,
+    room_number INT NOT NULL,
+    contact_number VARCHAR(20) NOT NULL,
+    reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+## 🔮 Future Roadmap
+
+- [ ] **Transaction Management:** Ensure atomicity of database operations.
+- [ ] **GUI Implementation:** specific interface using JavaFX.
+- [ ] **Spring Boot Migration:** Transition to a web-based REST API.
+- [ ] **Unit Testing:** Implement JUnit tests for Service and DAO layers.
+
+---
+
+## 👨‍💻 Author
+
+**Mohan Lal**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mhnuk2007/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mhnuk2007)
+[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=html5&logoColor=white)](https://mhnuk2007.github.io/)
