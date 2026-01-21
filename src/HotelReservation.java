@@ -85,18 +85,21 @@ public class HotelReservation {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            System.out.println("\nID   Guest Name           Room   Contact         Date");
-            System.out.println("----------------------------------------------------------");
+            System.out.println();
+            System.out.println("+-----+----------------------+-------+-----------------+---------------------+");
+            System.out.println("| ID  | Guest Name           | Room  | Contact         | Reservation Date    |");
+            System.out.println("+-----+----------------------+-------+-----------------+---------------------+");
 
             while (rs.next()) {
                 System.out.printf(
-                        "%-4d %-20s %-6d %-15s %s%n",
+                        "| %-3d | %-20s | %-5d | %-15s | %-19s |%n",
                         rs.getInt("reservation_id"),
                         rs.getString("guest_name"),
                         rs.getInt("room_number"),
                         rs.getString("contact_number"),
-                        rs.getTimestamp("reservation_date")
+                        rs.getTimestamp("reservation_date").toString().substring(0, 19)
                 );
+                System.out.println("+-----+----------------------+-------+-----------------+---------------------+");
             }
 
         } catch (SQLException e) {
