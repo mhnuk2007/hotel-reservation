@@ -1,33 +1,16 @@
-import dao.ReservationDAO;
-import dao.ReservationDAOImpl;
+import service.ReservationService;
+import service.ReservationServiceImpl;
 import model.Reservation;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
 public class HotelReservation {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/hotel_db";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-    private static ReservationDAO reservationDAO;
+    private static final ReservationService service = new ReservationServiceImpl();
 
     public static void main(String[] args) {
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("MySQL Driver not found");
-            return;
-        }
-
-        try (Scanner scanner = new Scanner(System.in);
-             Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
-
-            reservationDAO = new ReservationDAOImpl(connection);
+        try (Scanner scanner = new Scanner(System.in)) {
 
             while (true) {
                 System.out.println("\nHOTEL MANAGEMENT SYSTEM");
@@ -47,18 +30,10 @@ public class HotelReservation {
                     case 3 -> getRoomNumber(scanner);
                     case 4 -> updateReservation(scanner);
                     case 5 -> deleteReservation(scanner);
-                    case 0 -> {
-                        exit();
-                        return;
-                    }
+                    case 0 -> exit();
                     default -> System.out.println("Invalid option!");
                 }
             }
-
-        } catch (SQLException e) {
-            System.out.println("Database error: " + e.getMessage());
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
         }
     }
 
@@ -70,11 +45,11 @@ public class HotelReservation {
         System.out.print("Contact number: ");
         String contact = scanner.nextLine();
 
-        reservationDAO.addReservation(new Reservation(name, room, contact));
+        service.reserveRoom(name, room, contact);
     }
 
     private static void viewReservations() {
-        List<Reservation> reservations = reservationDAO.getAllReservations();
+        List<Reservation> reservations = service.viewReservations();
         if (reservations.isEmpty()) {
             System.out.println("No reservations found.");
             return;
@@ -85,15 +60,9 @@ public class HotelReservation {
         System.out.println("+-----+----------------------+-------+-----------------+---------------------+");
 
         for (Reservation r : reservations) {
-            System.out.printf(
-                    "| %-3d | %-20s | %-5d | %-15s | %-19s |%n",
-                    r.getId(),
-                    r.getGuestName(),
-                    r.getRoomNumber(),
-                    r.getContactNumber(),
-                    r.getReservationDate() != null ? r.getReservationDate() : "N/A"
-            );
-            System.out.println("+-----+----------------------+-------+-----------------+---------------------+");
+            System.out.printf("| %-3d | %-20s | %-5d | %-15s | %-19s |%n",
+                    r.getId(), r.getGuestName(), r.getRoomNumber(),
+                    r.getContactNumber(), r.getReservationDate());
         }
     }
 
@@ -103,19 +72,12 @@ public class HotelReservation {
         System.out.print("Customer name: ");
         String name = scanner.nextLine();
 
-        String result = reservationDAO.getReservationByIdAndName(id, name);
-        System.out.println(result);
+        System.out.println(service.getRoomNumber(id, name));
     }
 
     private static void updateReservation(Scanner scanner) {
         System.out.print("Reservation ID: ");
         int id = Integer.parseInt(scanner.nextLine());
-
-        if (!reservationDAO.exists(id)) {
-            System.out.println("Reservation not found.");
-            return;
-        }
-
         System.out.print("New customer name: ");
         String name = scanner.nextLine();
         System.out.print("New room number: ");
@@ -123,28 +85,17 @@ public class HotelReservation {
         System.out.print("New contact number: ");
         String contact = scanner.nextLine();
 
-        Reservation reservation = new Reservation(id, name, room, contact, null);
-        reservationDAO.updateReservation(reservation);
+        service.updateReservation(id, name, room, contact);
     }
 
     private static void deleteReservation(Scanner scanner) {
         System.out.print("Reservation ID: ");
         int id = Integer.parseInt(scanner.nextLine());
-
-        if (!reservationDAO.exists(id)) {
-            System.out.println("Reservation not found.");
-            return;
-        }
-
-        reservationDAO.deleteReservation(id);
+        service.deleteReservation(id);
     }
 
-    private static void exit() throws InterruptedException {
-        System.out.print("Exiting");
-        for (int i = 0; i < 5; i++) {
-            Thread.sleep(400);
-            System.out.print(".");
-        }
-        System.out.println("\nThank you for using Hotel Reservation System!");
+    private static void exit() {
+        System.out.println("Thank you for using Hotel Reservation System!");
+        System.exit(0);
     }
 }
