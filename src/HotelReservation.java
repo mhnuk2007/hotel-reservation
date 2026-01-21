@@ -42,7 +42,7 @@ public class HotelReservation {
                     case 3 -> getRoomNumber(connection, scanner);
                     case 4 -> updateReservations(connection, scanner);
                     case 5 -> deleteReservations(connection, scanner);
-                    case 0 ->{
+                    case 0 -> {
                         exit();
                         scanner.close();
                         connection.close();
@@ -61,7 +61,7 @@ public class HotelReservation {
         }
     }
 
-    private static void reserveRoom(Connection connection, Scanner scanner) throws  SQLException{
+    private static void reserveRoom(Connection connection, Scanner scanner) throws SQLException {
         try {
             System.out.println("RESERVE A ROOM");
             scanner.nextLine();
@@ -73,7 +73,7 @@ public class HotelReservation {
             String contactNumber = scanner.next();
 
             String query = "INSERT INTO reservations (guest_name, room_number, contact_number) VALUES (?, ?, ?)";
-            try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
                 preparedStatement.setString(1, customerName);
                 preparedStatement.setInt(2, roomNumber);
@@ -125,10 +125,26 @@ public class HotelReservation {
         }
     }
 
-
-
-
     private static void getRoomNumber(Connection connection, Scanner scanner) {
+        try {
+            System.out.print("Enter reservation ID: ");
+            int reservationID = scanner.nextInt();
+            System.out.print("Enter customer name: ");
+            String customerName = scanner.next();
+            String sql = "SELECT room_number FROM reservations WHERE reservation_id = ? AND guest_name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, reservationID);
+            preparedStatement.setString(2, customerName);
+            var rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                System.out.println("Room number: " + rs.getInt("room_number"));
+            } else {
+                System.out.println("Reservation not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
     }
 
     private static void updateReservations(Connection connection, Scanner scanner) {
@@ -137,10 +153,10 @@ public class HotelReservation {
     private static void deleteReservations(Connection connection, Scanner scanner) {
     }
 
-    private static  void exit() throws InterruptedException {
+    private static void exit() throws InterruptedException {
         System.out.print("Exiting");
         int i = 5;
-        while(i!=0){
+        while (i != 0) {
             System.out.print(".");
             Thread.sleep(450);
             i--;
