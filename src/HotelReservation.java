@@ -148,9 +148,56 @@ public class HotelReservation {
     }
 
     private static void updateReservations(Connection connection, Scanner scanner) {
+        try {
+            System.out.print("Enter reservation ID: ");
+            int reservationID = scanner.nextInt();
+            scanner.nextLine();
+            if(!reservationExists(connection, reservationID)){
+                System.out.println("Reservation not found.");
+                return;
+            }
+            System.out.println("Enter new customer name: ");
+            String newCustomerName = scanner.nextLine();
+            System.out.println("Enter new room number: ");
+            int newRoomNumber = scanner.nextInt();
+            System.out.println("Enter new contact number: ");
+            String newContactNumber = scanner.next();
+
+            String sql = "UPDATE reservations SET guest_name = ?, room_number = ?, contact_number = ? WHERE reservation_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, newCustomerName);
+            preparedStatement.setInt(2, newRoomNumber);
+            preparedStatement.setString(3, newContactNumber);
+            preparedStatement.setInt(4, reservationID);
+
+
+            int rows = preparedStatement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Reservation updated successfully!");
+            } else {
+                System.out.println("Failed to update reservation.");
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
+
     private static void deleteReservations(Connection connection, Scanner scanner) {
+    }
+
+    private static boolean reservationExists(Connection connection, int reservationID) {
+        try {
+            String sql = "SELECT * FROM reservations WHERE reservation_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, reservationID);
+            var rs = preparedStatement.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private static void exit() throws InterruptedException {
