@@ -1,89 +1,100 @@
 # Hotel Reservation System
 
-This is a **console-based Hotel Reservation System** implemented in Java using **JDBC** for MySQL database connectivity. It has been refactored to follow **clean architecture principles** using Model and DAO layers.
+This is a **console-based Hotel Reservation System** implemented in **Core Java** using **JDBC** for database connectivity. The project is designed with a **layered architecture** to ensure a clean separation of concerns, making it maintainable, scalable, and easy to understand.
+
+## Project Architecture
+
+The application is structured into three main layers:
+
+1.  **Presentation Layer (UI)**: The `HotelReservation.java` class, which is responsible for handling user input and displaying output. It is the entry point of the application.
+2.  **Service Layer**: Handles the business logic. It acts as an intermediary between the presentation layer and the data access layer.
+3.  **Data Access Layer (DAO)**: Responsible for all database operations (CRUD). It abstracts the underlying data source from the rest of the application.
+
+This layered approach is a common practice in enterprise application development and is a foundational concept for building robust software.
+
+### Visualized Structure
+
+```
++---------------------------+
+|   Presentation Layer      |
+|  (HotelReservation.java)  |
++-------------+-------------+
+              |
+              v
++-------------+-------------+
+|       Service Layer       |
+| (ReservationServiceImpl)  |
++-------------+-------------+
+              |
+              v
++-------------+-------------+
+|   Data Access Layer (DAO) |
+| (ReservationDAOImpl)      |
++-------------+-------------+
+              |
+              v
++-------------+-------------+
+|          Database         |
+|         (MySQL)           |
++---------------------------+
+```
 
 ## Features
 
-* Reserve a room
-* View all reservations
-* Get room number for a reservation
-* Update a reservation
-* Delete a reservation
-* **Clean Architecture**: Separation of concerns using Model and DAO layers.
-
-## Refactoring Progress Update
-
-As part of the Core Java & JDBC revision project, the application has been refactored using Model and DAO layers.
-
-**What’s new in this phase:**
-* **Reservation Model**: Introduced with auto-generated fields (ID, timestamp).
-* **DAO Pattern**: Implemented `ReservationDAO` and `ReservationDAOImpl`.
-* **Database Logic**: Moved entirely out of the main class.
-* **CRUD Operations**: Fully functional via DAO.
-* **Maintainability**: Cleaner, more maintainable, and testable codebase.
-
-> This refactor prepares the project for a Service layer and an eventual Spring Boot migration, following industry-standard backend design.
+*   Reserve a room
+*   View all reservations
+*   Get room number for a reservation
+*   Update an existing reservation
+*   Delete a reservation
+*   **Clean, Layered Architecture**: Ensures separation of concerns and high maintainability.
 
 ## Prerequisites
 
-* Java 8 or higher
-* MySQL server
-* JDBC Driver for MySQL (`mysql-connector-java`)
-* IDE (IntelliJ IDEA, Eclipse, etc.) or terminal
+*   Java 8 or higher
+*   MySQL Server
+*   MySQL JDBC Driver
 
 ## Database Setup
 
-1. Create a database named `hotel_db`:
+1.  **Create the database**:
+    ```sql
+    CREATE DATABASE hotel_db;
+    ```
+2.  **Create the table**:
+    ```sql
+    USE hotel_db;
 
-```sql
-CREATE DATABASE hotel_db;
-```
-
-2. Create `reservations` table:
-
-```sql
-CREATE TABLE reservations (
-    reservation_id INT AUTO_INCREMENT PRIMARY KEY,
-    guest_name VARCHAR(100) NOT NULL,
-    room_number INT NOT NULL,
-    contact_number VARCHAR(20) NOT NULL,
-    reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
+    CREATE TABLE reservations (
+        reservation_id INT AUTO_INCREMENT PRIMARY KEY,
+        guest_name VARCHAR(100) NOT NULL,
+        room_number INT NOT NULL,
+        contact_number VARCHAR(20) NOT NULL,
+        reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    ```
 
 ## Getting Started
 
-1. Clone the repository:
-
-```bash
-git clone https://github.com/mhnuk2007/hotel-reservation.git
-```
-
-2. Open the project in your IDE or terminal.
-3. Update database credentials in the configuration if necessary.
-
-4. Compile and run the program:
-
-```bash
-javac src/HotelReservation.java
-java -cp .;path/to/mysql-connector-java.jar HotelReservation
-```
-
-> Replace `path/to/mysql-connector-java.jar` with your MySQL JDBC driver path.
-
-## Usage
-
-* The program will display a menu with options.
-* Enter the number corresponding to the desired action.
-* Follow prompts to enter reservation details.
-* All operations are reflected in the `reservations` table in MySQL.
+1.  **Clone the repository**.
+2.  **Open the project** in your favorite IDE (e.g., IntelliJ IDEA, Eclipse).
+3.  **Configure the database connection**:
+    *   Navigate to the `src` directory.
+    *   Create a file named `db.properties`.
+    *   Add the following properties to the file, replacing the placeholder values with your MySQL credentials:
+        ```properties
+        db.driver=com.mysql.cj.jdbc.Driver
+        db.url=jdbc:mysql://localhost:3306/hotel_db
+        db.username=your_username
+        db.password=your_password
+        ```
+4.  **Add the JDBC Driver**: Make sure the MySQL JDBC driver JAR file is included in your project's classpath.
+5.  **Compile and Run**: Execute the `main` method in `HotelReservation.java`.
 
 ## Future Improvements
 
-* Introduce a **Service Layer**.
-* Add **transaction management**.
-* Implement a **GUI version** using JavaFX.
-* Convert to **Spring Boot + JPA** application for web interface.
+*   **Transaction Management**: Implement transaction handling in the service layer to ensure data integrity.
+*   **GUI**: Build a graphical user interface using a framework like JavaFX or Swing.
+*   **Spring Boot Migration**: As a next step, this project can be migrated to a full-fledged web application using Spring Boot and Spring Data JPA.
 
 ## License
 
