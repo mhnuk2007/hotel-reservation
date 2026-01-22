@@ -142,9 +142,18 @@ CREATE TABLE reservations (
 
 ## 🔮 Future Roadmap
 
+This project is designed to evolve through a progressive migration path, moving from raw JDBC to modern enterprise frameworks.
+
+### 🛤️ Migration Path:
+1.  **JDBC (Current State)**: Direct database interaction using SQL.
+2.  **JPA + Hibernate**: Introducing ORM (Object-Relational Mapping) to eliminate boilerplate SQL.
+3.  **Hibernate Native**: Leveraging Hibernate's native API for advanced features.
+4.  **Spring (Core)**: Implementing Dependency Injection (DI) and Inversion of Control (IoC) without Spring Boot.
+5.  **Spring Boot**: Final migration to a full-fledged microservice-ready application.
+
+### ✅ Upcoming Tasks:
 - [ ] **Transaction Management:** Ensure atomicity of database operations.
-- [ ] **GUI Implementation:** specific interface using JavaFX.
-- [ ] **Spring Boot Migration:** Transition to a web-based REST API.
+- [ ] **GUI Implementation:** Specific interface using JavaFX.
 - [ ] **Unit Testing:** Implement JUnit tests for Service and DAO layers.
 
 ---
