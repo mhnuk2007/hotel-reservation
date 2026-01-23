@@ -91,7 +91,7 @@ src/main/resources/META-INF/
 
 ---
 
-## 🏁 Getting Started
+## 🏁 Getting Started and Usage
 
 ### Prerequisites
 *   Java Development Kit (JDK) 17 or higher
@@ -116,6 +116,32 @@ src/main/resources/META-INF/
 
 3.  **Run the Application**
     Compile and execute `HotelReservation.java`.
+
+### Usage
+
+The application is a console-based menu-driven system. When you run the application, you will see the following menu:
+
+```
+HOTEL MANAGEMENT SYSTEM
+1. Reserve a room
+2. View reservations
+3. Get room number
+4. Update reservation
+5. Delete reservation
+0. Exit
+Choose an option:
+```
+
+Here is a description of each option:
+
+| Option | Description                                                                 | Inputs                                                                                             | Outputs                                                                                                                                                                                            |
+| :----- | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1      | **Reserve a room**                                                          | `Customer name`, `Room number`, `Contact number`                                                   | A confirmation message: `Room reserved successfully!`                                                                                                                                            |
+| 2      | **View reservations**                                                       | None                                                                                               | A table with all the reservations: `ID`, `Guest Name`, `Room`, `Contact`, `Reservation Date`. If there are no reservations, it will print `No reservations found.`                              |
+| 3      | **Get room number**                                                         | `Reservation ID`, `Customer name`                                                                  | The room number for the given reservation: `Room number: <room_number>`. If the reservation is not found, it will print `Reservation not found.`                                                   |
+| 4      | **Update reservation**                                                      | `Reservation ID`, `New customer name`, `New room number`, `New contact number`                     | A confirmation message: `Reservation updated successfully!`. If the reservation is not found, it will print `Reservation not found.`                                                             |
+| 5      | **Delete reservation**                                                      | `Reservation ID`                                                                                   | A confirmation message: `Reservation deleted successfully!`. If the reservation is not found, it will print `Reservation not found.`                                                               |
+| 0      | **Exit**                                                                    | None                                                                                               | Exits the application with a thank you message: `Thank you for using Hotel Reservation System!`                                                                                                  |
 
 ---
 
@@ -144,14 +170,22 @@ CREATE TABLE reservations (
 
 ## 🔮 Future Roadmap
 
-This project is designed to evolve through a progressive migration path, moving from raw JDBC to modern enterprise frameworks.
+This project is designed to evolve through a progressive migration path, moving from raw JDBC to modern enterprise frameworks. Each stage of the migration is available as a separate branch in the repository.
 
 ### 🛤️ Migration Path:
-1.  **JDBC**: Direct database interaction using SQL. (Completed)
-2.  **JPA + Hibernate**: Introducing ORM to eliminate boilerplate SQL. (Current State)
+1.  **JDBC**: Direct database interaction using SQL.
+    -   **Branch**: `main`
+    -   **Status**: Completed
+2.  **JPA + Hibernate**: Introducing ORM to eliminate boilerplate SQL.
+    -   **Branch**: `jpa-hibernate-core`
+    -   **Status**: Completed
 3.  **Hibernate Native**: Leveraging Hibernate's native API for advanced features.
+    -   **Branch**: `hibernate-native`
+    -   **Status**: Completed
 4.  **Spring (Core)**: Implementing Dependency Injection (DI) and Inversion of Control (IoC) without Spring Boot.
+    -   **Status**: Upcoming
 5.  **Spring Boot**: Final migration to a full-fledged microservice-ready application.
+    -   **Status**: Upcoming
 
 ### ✅ Upcoming Tasks:
 - [ ] **Transaction Management:** Ensure atomicity of database operations.
