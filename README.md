@@ -2,10 +2,11 @@
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
-![JDBC](https://img.shields.io/badge/JDBC-4479A1?style=for-the-badge&logo=java&logoColor=white)
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-007396?style=for-the-badge&logo=java&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 
-A robust, console-based **Hotel Reservation System** built with **Core Java** and **JDBC**. This project demonstrates a professional implementation of the **Layered Architecture** pattern, ensuring clean separation of concerns, maintainability, and scalability.
+A robust, console-based **Hotel Reservation System** built with **Core Java** and **JPA (Hibernate)**. This project demonstrates a professional implementation of the **Layered Architecture** pattern, ensuring clean separation of concerns, maintainability, and scalability.
 
 ---
 
@@ -24,12 +25,13 @@ A robust, console-based **Hotel Reservation System** built with **Core Java** an
 
 ## 🚀 Overview
 
-This application serves as a practical revision of Core Java and JDBC concepts, refactored to mirror enterprise-level development standards. It transitions from a monolithic design to a modular, layered approach, preparing the groundwork for advanced frameworks like Spring Boot.
+This application serves as a practical revision of Core Java and ORM concepts, refactored to mirror enterprise-level development standards. It has transitioned from a JDBC-based design to a JPA/Hibernate implementation, reducing boilerplate code and introducing object-relational mapping.
 
 **Key Highlights:**
 *   **Clean Code:** Adheres to SOLID principles.
+*   **ORM Integration:** Uses Hibernate as the JPA provider.
 *   **Scalable Design:** Decoupled layers allow for easy updates and testing.
-*   **Secure Configuration:** Centralized database credentials.
+*   **Secure Configuration:** Centralized database configuration via `persistence.xml`.
 
 ---
 
@@ -39,32 +41,32 @@ The project is structured into three distinct layers:
 
 1.  **Presentation Layer (UI):** Handles user interaction via the console (`HotelReservation.java`).
 2.  **Service Layer (Business Logic):** Processes data and applies business rules (`ReservationService`).
-3.  **Data Access Layer (DAO):** Manages direct database interactions (`ReservationDAO`).
+3.  **Data Access Layer (DAO):** Manages database interactions using JPA `EntityManager` (`ReservationDao`).
 
-### 🔄 Refactoring Journey: Monolith → Layered
-*   ✅ **DAO Pattern:** Isolated SQL operations.
-*   ✅ **Service Layer:** Centralized business logic.
-*   ✅ **Model:** POJOs representing database entities.
-*   ✅ **Utilities:** Reusable DB connection logic.
+### 🔄 Refactoring Journey: JDBC → JPA
+*   ✅ **DAO Pattern:** Refactored to use JPA `EntityManager` instead of JDBC `PreparedStatement`.
+*   ✅ **Service Layer:** Remains agnostic of the underlying data access technology.
+*   ✅ **Model:** Annotated POJOs (`@Entity`) representing database tables.
+*   ✅ **Configuration:** `persistence.xml` replaces manual connection logic.
 
 ---
 
 ## 📂 Project Structure
 
 ```plaintext
-src/
+src/main/java/com/hotelreservation/app/
 ├── dao/                  # Data Access Objects
-│   ├── ReservationDAO.java
-│   └── ReservationDAOImpl.java
-├── model/                # Data Models (POJOs)
+│   ├── ReservationDao.java
+│   └── ReservationDaoImpl.java
+├── model/                # JPA Entities
 │   └── Reservation.java
 ├── service/              # Business Logic Layer
 │   ├── ReservationService.java
 │   └── ReservationServiceImpl.java
-├── util/                 # Utility Classes
-│   └── DBConnection.java
-├── db.properties         # Database Configuration
 └── HotelReservation.java # Main Application Entry Point
+
+src/main/resources/META-INF/
+└── persistence.xml       # JPA Configuration
 ```
 
 ---
@@ -81,17 +83,18 @@ src/
 
 ## 🛠 Tech Stack
 
-*   **Language:** Java 8+
+*   **Language:** Java 17
+*   **ORM:** Hibernate 6.x
+*   **Persistence API:** Jakarta Persistence (JPA 3.x)
 *   **Database:** MySQL
-*   **Connectivity:** JDBC (Java Database Connectivity)
-*   **Driver:** MySQL Connector/J
+*   **Build Tool:** Maven
 
 ---
 
 ## 🏁 Getting Started
 
 ### Prerequisites
-*   Java Development Kit (JDK) 8 or higher
+*   Java Development Kit (JDK) 17 or higher
 *   MySQL Server installed and running
 *   IDE (IntelliJ IDEA, Eclipse) or Terminal
 
@@ -104,12 +107,11 @@ src/
     ```
 
 2.  **Configure Database**
-    Create a `db.properties` file in the `src` directory:
-    ```properties
-    db.driver=com.mysql.cj.jdbc.Driver
-    db.url=jdbc:mysql://localhost:3306/hotel_db
-    db.username=root
-    db.password=your_password
+    Update `src/main/resources/META-INF/persistence.xml` with your database credentials:
+    ```xml
+    <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotel_db"/>
+    <property name="jakarta.persistence.jdbc.user" value="root"/>
+    <property name="jakarta.persistence.jdbc.password" value="your_password"/>
     ```
 
 3.  **Run the Application**
@@ -145,8 +147,8 @@ CREATE TABLE reservations (
 This project is designed to evolve through a progressive migration path, moving from raw JDBC to modern enterprise frameworks.
 
 ### 🛤️ Migration Path:
-1.  **JDBC (Current State)**: Direct database interaction using SQL.
-2.  **JPA + Hibernate**: Introducing ORM (Object-Relational Mapping) to eliminate boilerplate SQL.
+1.  **JDBC**: Direct database interaction using SQL. (Completed)
+2.  **JPA + Hibernate**: Introducing ORM to eliminate boilerplate SQL. (Current State)
 3.  **Hibernate Native**: Leveraging Hibernate's native API for advanced features.
 4.  **Spring (Core)**: Implementing Dependency Injection (DI) and Inversion of Control (IoC) without Spring Boot.
 5.  **Spring Boot**: Final migration to a full-fledged microservice-ready application.

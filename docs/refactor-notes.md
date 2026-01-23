@@ -157,6 +157,7 @@ Key behaviors:
 * `PreparedStatement`
 * Explicit result set mapping
 * Manual transaction handling
+* **Packages:** `model`, `dao`, `service`, `util`
 
 ### JPA + Hibernate (After)
 
@@ -164,6 +165,7 @@ Key behaviors:
 * Object-based persistence
 * Automatic mapping
 * Declarative transaction handling
+* **Packages:** `com.hotelreservation.app.model`, `com.hotelreservation.app.dao`, `com.hotelreservation.app.service`
 
 ---
 
@@ -171,29 +173,31 @@ Key behaviors:
 
 ```
 src/main/java
- └── com.hotelreservation
-     ├── entity
-     │   └── Reservation.java
+ └── com.hotelreservation.app
+     ├── model
+     │   └── Reservation.java       <-- Converted to JPA Entity
      ├── dao
-     │   └── ReservationJpaDao.java
-     └── util
-         └── JpaUtil.java
+     │   ├── ReservationDao.java    <-- Interface
+     │   └── ReservationDaoImpl.java <-- Refactored to use EntityManager
+     └── service
+         ├── ReservationService.java
+         └── ReservationServiceImpl.java
 
 src/main/resources
  └── META-INF
-     └── persistence.xml
+     └── persistence.xml        <-- New Configuration File
 ```
 
 ---
 
 ## Refactor Strategy Followed
 
-1. **Preserve JDBC code initially** (baseline reference)
-2. Introduce JPA dependencies via Maven
-3. Create entity classes mapped to existing tables
-4. Add `persistence.xml`
-5. Replace one DAO at a time
-6. Verify functionality after each replacement
+1. **Update Project Structure**: Adopted a package structure under `com.hotelreservation.app`.
+2. **Introduce JPA Dependencies**: Ensure Maven `pom.xml` has `hibernate-core` and `jakarta.persistence-api`.
+3. **Convert Model to Entity**: Annotate `com.hotelreservation.app.model.Reservation` with `@Entity`, `@Table`, `@Id`, etc.
+4. **Configure Persistence**: Create `src/main/resources/META-INF/persistence.xml` with database and Hibernate settings.
+5. **Refactor DAO**: Update `com.hotelreservation.app.dao.ReservationDaoImpl` to initialize `EntityManagerFactory` and use `EntityManager` for CRUD operations.
+6. **Verify Service Layer**: Ensure `com.hotelreservation.app.service.ReservationServiceImpl` works seamlessly with the new DAO implementation.
 
 This ensures:
 

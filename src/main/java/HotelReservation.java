@@ -1,6 +1,9 @@
-import service.ReservationService;
-import service.ReservationServiceImpl;
-import model.Reservation;
+
+
+import com.hotelreservation.app.model.Reservation;
+import com.hotelreservation.app.service.ReservationService;
+import com.hotelreservation.app.service.ReservationServiceImpl;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,14 +14,14 @@ public class HotelReservation {
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-
             while (true) {
                 System.out.println("\nHOTEL MANAGEMENT SYSTEM");
                 System.out.println("1. Reserve a room");
                 System.out.println("2. View reservations");
                 System.out.println("3. Get room number");
-                System.out.println("4. Update reservation");
-                System.out.println("5. Delete reservation");
+                System.out.println("4. Get reservation by ID");
+                System.out.println("5. Update reservation");
+                System.out.println("6. Delete reservation");
                 System.out.println("0. Exit");
                 System.out.print("Choose an option: ");
 
@@ -28,8 +31,9 @@ public class HotelReservation {
                     case 1 -> reserveRoom(scanner);
                     case 2 -> viewReservations();
                     case 3 -> getRoomNumber(scanner);
-                    case 4 -> updateReservation(scanner);
-                    case 5 -> deleteReservation(scanner);
+                    case 4 -> getReservationById(scanner);
+                    case 5-> updateReservation(scanner);
+                    case 6 -> deleteReservation(scanner);
                     case 0 -> exit();
                     default -> System.out.println("Invalid option!");
                 }
@@ -51,18 +55,29 @@ public class HotelReservation {
     private static void viewReservations() {
         List<Reservation> reservations = service.viewReservations();
         if (reservations.isEmpty()) {
-            System.out.println("No reservations found.");
+            System.out.println("No reservations found!");
             return;
         }
-
-        System.out.println("+-----+----------------------+-------+-----------------+---------------------+");
-        System.out.println("| ID  | Guest Name           | Room  | Contact         | Reservation Date    |");
-        System.out.println("+-----+----------------------+-------+-----------------+---------------------+");
+        System.out.println("+-----+----------------------+-------+-----------------+-----------------------+");
+        System.out.println("| ID  | Guest Name           | Room  | Contact         | Reservation Date      |");
+        System.out.println("+-----+----------------------+-------+-----------------+-----------------------+");
 
         for (Reservation r : reservations) {
             System.out.printf("| %-3d | %-20s | %-5d | %-15s | %-19s |%n",
                     r.getId(), r.getGuestName(), r.getRoomNumber(),
                     r.getContactNumber(), r.getReservationDate());
+        }
+    }
+
+    private static void getReservationById(Scanner scanner) {
+        System.out.print("Reservation ID: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        Reservation r = service.getReservationById(id);
+        if (r != null) {
+            System.out.println("Guest: " + r.getGuestName() + ", Room: " + r.getRoomNumber() +
+                    ", Contact: " + r.getContactNumber() + ", Date: " + r.getReservationDate());
+        } else {
+            System.out.println("Reservation not found!");
         }
     }
 
@@ -72,7 +87,12 @@ public class HotelReservation {
         System.out.print("Customer name: ");
         String name = scanner.nextLine();
 
-        System.out.println(service.getRoomNumber(id, name));
+        var reservation = service.getReservationByIdAndName(id, name);
+        if (reservation != null) {
+            System.out.println("Room number: " + reservation.getRoomNumber());
+        } else {
+            System.out.println("Reservation not found!");
+        }
     }
 
     private static void updateReservation(Scanner scanner) {
