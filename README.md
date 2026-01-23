@@ -1,12 +1,11 @@
-# 🏨 Hotel Reservation System
+# 🏨 Hotel Reservation System (Hibernate Native Version)
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
-![JPA](https://img.shields.io/badge/JPA-007396?style=for-the-badge&logo=java&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 
-A robust, console-based **Hotel Reservation System** built with **Core Java** and **JPA (Hibernate)**. This project demonstrates a professional implementation of the **Layered Architecture** pattern, ensuring clean separation of concerns, maintainability, and scalability.
+A robust, console-based **Hotel Reservation System** built with **Core Java** and **Hibernate Native API**. This project demonstrates a professional implementation of the **Layered Architecture** pattern, ensuring clean separation of concerns, maintainability, and scalability.
 
 ---
 
@@ -16,7 +15,7 @@ A robust, console-based **Hotel Reservation System** built with **Core Java** an
 - [Project Structure](#-project-structure)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
+- [Getting Started and Usage](#-getting-started-and-usage)
 - [Database Setup](#-database-setup)
 - [Future Roadmap](#-future-roadmap)
 - [Author](#-author)
@@ -25,13 +24,13 @@ A robust, console-based **Hotel Reservation System** built with **Core Java** an
 
 ## 🚀 Overview
 
-This application serves as a practical revision of Core Java and ORM concepts, refactored to mirror enterprise-level development standards. It has transitioned from a JDBC-based design to a JPA/Hibernate implementation, reducing boilerplate code and introducing object-relational mapping.
+This application serves as a practical revision of Core Java and ORM concepts, refactored to mirror enterprise-level development standards. It uses **Hibernate Native API** for data persistence, providing a deep dive into ORM capabilities beyond standard JPA.
 
 **Key Highlights:**
 *   **Clean Code:** Adheres to SOLID principles.
-*   **ORM Integration:** Uses Hibernate as the JPA provider.
+*   **Hibernate Native:** Uses `Session` and `SessionFactory` for advanced ORM control.
 *   **Scalable Design:** Decoupled layers allow for easy updates and testing.
-*   **Secure Configuration:** Centralized database configuration via `persistence.xml`.
+*   **Secure Configuration:** Centralized database configuration via `hibernate.cfg.xml`.
 
 ---
 
@@ -41,32 +40,35 @@ The project is structured into three distinct layers:
 
 1.  **Presentation Layer (UI):** Handles user interaction via the console (`HotelReservation.java`).
 2.  **Service Layer (Business Logic):** Processes data and applies business rules (`ReservationService`).
-3.  **Data Access Layer (DAO):** Manages database interactions using JPA `EntityManager` (`ReservationDao`).
+3.  **Data Access Layer (DAO):** Manages database interactions using Hibernate `Session` (`ReservationDAO`).
 
-### 🔄 Refactoring Journey: JDBC → JPA
-*   ✅ **DAO Pattern:** Refactored to use JPA `EntityManager` instead of JDBC `PreparedStatement`.
+### 🔄 Refactoring Journey: JDBC → Hibernate Native
+*   ✅ **DAO Pattern:** Refactored to use Hibernate `Session` instead of JDBC `PreparedStatement`.
 *   ✅ **Service Layer:** Remains agnostic of the underlying data access technology.
 *   ✅ **Model:** Annotated POJOs (`@Entity`) representing database tables.
-*   ✅ **Configuration:** `persistence.xml` replaces manual connection logic.
+*   ✅ **Configuration:** `hibernate.cfg.xml` replaces manual connection logic.
+*   ✅ **Bootstrap:** Implemented `HibernateUtil` for `SessionFactory` management.
 
 ---
 
 ## 📂 Project Structure
 
 ```plaintext
-src/main/java/com/hotelreservation/app/
-├── dao/                  # Data Access Objects
-│   ├── ReservationDao.java
-│   └── ReservationDaoImpl.java
-├── model/                # JPA Entities
-│   └── Reservation.java
-├── service/              # Business Logic Layer
-│   ├── ReservationService.java
-│   └── ReservationServiceImpl.java
-└── HotelReservation.java # Main Application Entry Point
-
-src/main/resources/META-INF/
-└── persistence.xml       # JPA Configuration
+src/main/java/
+├── com/hotelreservation/
+│   ├── dao/
+│   │   ├── ReservationDAO.java
+│   │   └── ReservationDAOImpl.java
+│   ├── model/
+│   │   └── Reservation.java
+│   ├── service/
+│   │   ├── ReservationService.java
+│   │   └── ReservationServiceImpl.java
+│   └── util/
+│       └── HibernateUtil.java
+└── HotelReservation.java
+src/main/resources/
+└── hibernate.cfg.xml
 ```
 
 ---
@@ -84,8 +86,7 @@ src/main/resources/META-INF/
 ## 🛠 Tech Stack
 
 *   **Language:** Java 17
-*   **ORM:** Hibernate 6.x
-*   **Persistence API:** Jakarta Persistence (JPA 3.x)
+*   **ORM:** Hibernate 6.x (Native API)
 *   **Database:** MySQL
 *   **Build Tool:** Maven
 
@@ -100,18 +101,19 @@ src/main/resources/META-INF/
 
 ### Installation
 
-1.  **Clone the Repository**
+1.  **Clone the Repository and checkout the `hibernate-native` branch**
     ```bash
     git clone https://github.com/mhnuk2007/hotel-reservation.git
     cd hotel-reservation
+    git checkout hibernate-native
     ```
 
 2.  **Configure Database**
-    Update `src/main/resources/META-INF/persistence.xml` with your database credentials:
+    Update `src/main/resources/hibernate.cfg.xml` with your database credentials:
     ```xml
-    <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotel_db"/>
-    <property name="jakarta.persistence.jdbc.user" value="root"/>
-    <property name="jakarta.persistence.jdbc.password" value="your_password"/>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hotel_db</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">your_password</property>
     ```
 
 3.  **Run the Application**
@@ -181,7 +183,7 @@ This project is designed to evolve through a progressive migration path, moving 
     -   **Status**: Completed
 3.  **Hibernate Native**: Leveraging Hibernate's native API for advanced features.
     -   **Branch**: `hibernate-native`
-    -   **Status**: Completed
+    -   **Status**: Current State
 4.  **Spring (Core)**: Implementing Dependency Injection (DI) and Inversion of Control (IoC) without Spring Boot.
     -   **Status**: Upcoming
 5.  **Spring Boot**: Final migration to a full-fledged microservice-ready application.
