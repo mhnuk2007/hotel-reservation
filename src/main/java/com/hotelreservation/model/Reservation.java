@@ -1,22 +1,40 @@
-package model;
+package com.hotelreservation.model;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 
+@Entity
+@Table(name = "reservations")
 public class Reservation {
-    private int id; // auto-generated
-    private String guestName;
-    private int roomNumber;
-    private String contactNumber;
-    private Timestamp reservationDate; // auto-generated
 
-    // Constructor for creating a new reservation (id and date auto-generated)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reservation_id")
+    private int id;
+
+    @Column(name = "guest_name", nullable = false)
+    private String guestName;
+
+    @Column(name = "room_number", nullable = false)
+    private int roomNumber;
+
+    @Column(name = "contact_number", nullable = false)
+    private String contactNumber;
+
+    @CreationTimestamp
+    @Column(name = "reservation_date", insertable = false, updatable = false)
+    private Timestamp reservationDate;
+
+    public Reservation() {
+    }
+
     public Reservation(String guestName, int roomNumber, String contactNumber) {
         this.guestName = guestName;
         this.roomNumber = roomNumber;
         this.contactNumber = contactNumber;
     }
 
-    // Constructor for retrieving existing reservation from DB (with auto-generated fields)
     public Reservation(int id, String guestName, int roomNumber, String contactNumber, Timestamp reservationDate) {
         this.id = id;
         this.guestName = guestName;
@@ -25,7 +43,6 @@ public class Reservation {
         this.reservationDate = reservationDate;
     }
 
-    // Getters and setters
     public int getId() {
         return id;
     }

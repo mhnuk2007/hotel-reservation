@@ -1,6 +1,7 @@
-import service.ReservationService;
-import service.ReservationServiceImpl;
-import model.Reservation;
+
+import com.hotelreservation.model.Reservation;
+import com.hotelreservation.service.ReservationService;
+import com.hotelreservation.service.ReservationServiceImpl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,8 +18,9 @@ public class HotelReservation {
                 System.out.println("1. Reserve a room");
                 System.out.println("2. View reservations");
                 System.out.println("3. Get room number");
-                System.out.println("4. Update reservation");
-                System.out.println("5. Delete reservation");
+                System.out.println("4. Get reservation");
+                System.out.println("5. Update reservation");
+                System.out.println("6. Delete reservation");
                 System.out.println("0. Exit");
                 System.out.print("Choose an option: ");
 
@@ -28,8 +30,9 @@ public class HotelReservation {
                     case 1 -> reserveRoom(scanner);
                     case 2 -> viewReservations();
                     case 3 -> getRoomNumber(scanner);
-                    case 4 -> updateReservation(scanner);
-                    case 5 -> deleteReservation(scanner);
+                    case 4 -> getReservation(scanner);
+                    case 5 -> updateReservation(scanner);
+                    case 6 -> deleteReservation(scanner);
                     case 0 -> exit();
                     default -> System.out.println("Invalid option!");
                 }
@@ -74,6 +77,17 @@ public class HotelReservation {
 
         System.out.println(service.getRoomNumber(id, name));
     }
+
+    private static void getReservation(Scanner scanner) {
+        System.out.print("Reservation ID: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        System.out.print("Customer name: ");
+        String name = scanner.nextLine();
+
+        service.getReservation(id, name);
+        System.out.println();
+    }
+
 
     private static void updateReservation(Scanner scanner) {
         System.out.print("Reservation ID: ");
