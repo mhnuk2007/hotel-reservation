@@ -128,8 +128,9 @@ HOTEL MANAGEMENT SYSTEM
 1. Reserve a room
 2. View reservations
 3. Get room number
-4. Update reservation
-5. Delete reservation
+4. Get reservation
+5. Update reservation
+6. Delete reservation
 0. Exit
 Choose an option:
 ```
@@ -141,8 +142,9 @@ Here is a description of each option:
 | 1      | **Reserve a room**                                                          | `Customer name`, `Room number`, `Contact number`                                                   | A confirmation message: `Room reserved successfully!`                                                                                                                                            |
 | 2      | **View reservations**                                                       | None                                                                                               | A table with all the reservations: `ID`, `Guest Name`, `Room`, `Contact`, `Reservation Date`. If there are no reservations, it will print `No reservations found.`                              |
 | 3      | **Get room number**                                                         | `Reservation ID`, `Customer name`                                                                  | The room number for the given reservation: `Room number: <room_number>`. If the reservation is not found, it will print `Reservation not found.`                                                   |
-| 4      | **Update reservation**                                                      | `Reservation ID`, `New customer name`, `New room number`, `New contact number`                     | A confirmation message: `Reservation updated successfully!`. If the reservation is not found, it will print `Reservation not found.`                                                             |
-| 5      | **Delete reservation**                                                      | `Reservation ID`                                                                                   | A confirmation message: `Reservation deleted successfully!`. If the reservation is not found, it will print `Reservation not found.`                                                               |
+| 4      | **Get reservation**                                                         | `Reservation ID`, `Customer name`                                                                  | The details of the reservation. If the reservation is not found, it will print `Reservation not found.`                                                                                            |
+| 5      | **Update reservation**                                                      | `Reservation ID`, `New customer name`, `New room number`, `New contact number`                     | A confirmation message: `Reservation updated successfully!`. If the reservation is not found, it will print `Reservation not found.`                                                             |
+| 6      | **Delete reservation**                                                      | `Reservation ID`                                                                                   | A confirmation message: `Reservation deleted successfully!`. If the reservation is not found, it will print `Reservation not found.`                                                               |
 | 0      | **Exit**                                                                    | None                                                                                               | Exits the application with a thank you message: `Thank you for using Hotel Reservation System!`                                                                                                  |
 
 ---
